@@ -57,8 +57,9 @@ class Topic:
 
     @property
     def region(self) -> str:
+        # Remis (np. ten sam artykuł w Wikipedii PL i EN) oznacza temat międzynarodowy.
         pl = sum(1 for i in self.items if i.region == "PL")
-        return "PL" if pl * 2 >= len(self.items) else "GLOBAL"
+        return "PL" if pl * 2 > len(self.items) else "GLOBAL"
 
     @property
     def is_mixed_region(self) -> bool:

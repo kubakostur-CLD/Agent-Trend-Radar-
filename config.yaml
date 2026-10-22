@@ -44,6 +44,11 @@ sources:
       - "^(Special|Specjalna|Wikipedia|Plik|File|Portal|Pomoc|Help|Kategoria|Category|Szablon|Template|Talk|Dyskusja)(:|_)"
       - "^(Main_Page|Strona_główna|-)$"
       - "^(Deaths_in_|Zmarli_w_)"
+      # Strony dat i lat oraz hasła stale popularne
+      - "^\\d{1,2}_(stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia)$"
+      - "^(January|February|March|April|May|June|July|August|September|October|November|December)_\\d{1,2}$"
+      - "^\\d{4}$"
+      - "^(Polska|United_States|Stany_Zjednoczone)$"
       - "^(XXX|xHamster|Pornhub|XVideos|Cleopatra)"
 
   hackernews:

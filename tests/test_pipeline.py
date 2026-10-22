@@ -118,3 +118,26 @@ def test_tracked_keyword_bonus(item):
     rank([a, b], ScoringConfig(), track_keywords=["iphone"], now=NOW)
     assert a.tracked and not b.tracked
     assert a.score > b.score
+
+
+def test_single_word_title_does_not_absorb_common_word(item):
+    # „Polska” z Wikipedii nie może wciągać każdego newsa ze słowem „Polska”.
+    items = [item("Polska", platform="wikipedia", engagement=9)]
+    items += [item(f"Polska {w} zmiany {i}", engagement=1) for i, w in enumerate(["podatki", "drogi", "szkoły", "sport"])]
+    items += [item(f"Inny temat numer {i}", engagement=1) for i in range(20)]
+    topics = cluster(normalize(items))
+    polska = next(t for t in topics if t.title == "Polska")
+    assert len(polska.items) == 1
+
+
+def test_single_word_title_needs_match_in_title_not_related(item):
+    items = normalize([
+        item("komunikat", platform="google_trends", engagement=5, related=["Lalka bije rekordy w kinach"]),
+        item("Lalka", platform="wikipedia", engagement=9),
+    ])
+    assert len(cluster(items)) == 2
+
+
+def test_region_tie_is_global(item):
+    t = Topic(items=[item("BioWare", platform="wikipedia", region="PL"), item("BioWare", platform="wikipedia", region="GLOBAL")])
+    assert t.region == "GLOBAL"

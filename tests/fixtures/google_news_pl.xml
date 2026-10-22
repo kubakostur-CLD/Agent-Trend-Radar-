@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>Google News</title>
+<item>
+<title>Orlen obniża ceny paliw na stacjach - Example PL</title>
+<link>https://news.google.com/rss/articles/abc?utm_source=x</link>
+<pubDate>Thu, 22 Oct 2026 04:00:00 GMT</pubDate>
+<description>&lt;ol&gt;&lt;li&gt;&lt;a href="a"&gt;A&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="b"&gt;B&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="c"&gt;C&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</description>
+<source url="https://example.pl">Example PL</source>
+</item>
+<item>
+<title>Orlen obniża ceny paliw na stacjach! - Inny Portal</title>
+<link>https://news.google.com/rss/articles/def</link>
+<pubDate>Thu, 22 Oct 2026 03:00:00 GMT</pubDate>
+<description>&lt;a href="x"&gt;x&lt;/a&gt;</description>
+<source url="https://inny.pl">Inny Portal</source>
+</item>
+<item>
+<title>Sejm przyjął ustawę o szkolnictwie wyższym - Example PL</title>
+<link>https://news.google.com/rss/articles/ghi</link>
+<pubDate>Thu, 22 Oct 2026 02:00:00 GMT</pubDate>
+<description>&lt;a href="x"&gt;x&lt;/a&gt;</description>
+<source url="https://example.pl">Example PL</source>
+</item>
+</channel></rss>

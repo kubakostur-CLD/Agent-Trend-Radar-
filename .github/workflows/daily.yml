@@ -1,0 +1,64 @@
+name: Trend Radar
+
+on:
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: "Źródła oddzielone przecinkami (puste = wg config.yaml)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trend-radar
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalacja
+        run: pip install -e ".[dev]"
+
+      - name: Testy
+        run: pytest -q
+
+      - name: Przebieg
+        env:
+          TR_CONTACT: ${{ vars.TR_CONTACT || 'https://github.com/kubakostur-CLD/agent-trend-radar-' }}
+          SOURCES: ${{ inputs.sources }}
+        run: |
+          if [ -n "$SOURCES" ]; then
+            python -m trend_radar run --sources "$SOURCES"
+          else
+            python -m trend_radar run
+          fi
+
+      - name: Zapis raportu w repo
+        run: |
+          git config user.name "trend-radar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          if git diff --cached --quiet; then
+            echo "Brak zmian w raportach"
+          else
+            git commit -m "Raport $(TZ=Europe/Warsaw date +%F)"
+            git push
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report
+          path: reports/*.md
+          if-no-files-found: ignore

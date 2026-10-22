@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:ht="https://trends.google.com/trending/rss" version="2.0">
+<channel>
+<title>Daily Search Trends</title>
+<item>
+<title>orlen</title>
+<ht:approx_traffic>20 000+</ht:approx_traffic>
+<link>https://trends.google.com/trending/rss?geo=PL</link>
+<pubDate>Wed, 21 Oct 2026 20:00:00 +0200</pubDate>
+<ht:news_item>
+<ht:news_item_title>Orlen obniża ceny paliw na stacjach</ht:news_item_title>
+<ht:news_item_url>https://example.pl/orlen-ceny-paliw</ht:news_item_url>
+<ht:news_item_source>Example PL</ht:news_item_source>
+</ht:news_item>
+</item>
+<item>
+<title>burza w Krakowie</title>
+<ht:approx_traffic>5K+</ht:approx_traffic>
+<pubDate>Thu, 22 Oct 2026 05:00:00 +0200</pubDate>
+</item>
+</channel>
+</rss>

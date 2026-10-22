@@ -1,0 +1,67 @@
+{% macro topic(t, n) %}
+{{ n }}. {{ title(t) }} · score {{ t.score }} · {{ platform_count(t) }} {{ plural(platform_count(t), "platforma", "platformy", "platform") }}
+{% if t.summary %}
+   {{ t.summary }}
+{% endif %}
+{% if t.why_viral %}
+   _Dlaczego viral:_ {{ t.why_viral }}
+{% endif %}
+   📊 {{ signals(t) | join(" · ") }}
+   🔗 {% for label, url in links(t) %}[{{ label }}]({{ url }}){{ " · " if not loop.last }}{% endfor %}
+
+{% endmacro %}
+# 📡 Trend Radar: {{ report_date }}
+
+_Wygenerowano {{ generated_at }} · źródła OK: {{ ok_count }}/{{ results | length }} · {{ n_items }} {{ plural(n_items, 'element', 'elementy', 'elementów') }} → {{ n_topics }} {{ plural(n_topics, 'temat', 'tematy', 'tematów') }}_
+
+## 🔥 TOP {{ s.top | length }}
+
+{% for t in s.top %}
+{{ topic(t, loop.index) }}
+{% endfor %}
+## 😂 Memy dnia
+
+{% if s.memes %}
+{% for t in s.memes %}
+{{ topic(t, loop.index) }}
+{% endfor %}
+{% elif s.meme_section_active %}
+_Dziś brak tematów oznaczonych jako mem._
+
+{% else %}
+_Sekcja wymaga kategoryzacji przez Claude API (etap 4)._
+
+{% endif %}
+## 🇵🇱 Polska (poza TOP)
+
+{% for t in s.poland %}
+{{ topic(t, loop.index) }}
+{% else %}
+_Brak._
+
+{% endfor %}
+## 🌍 Świat (poza TOP)
+
+{% for t in s.world %}
+{{ topic(t, loop.index) }}
+{% else %}
+_Brak._
+
+{% endfor %}
+## 🚀 Wschodzące
+
+{% for t in s.emerging %}
+{{ topic(t, loop.index) }}
+{% else %}
+_Brak._
+
+{% endfor %}
+---
+
+### 🩺 Stan źródeł
+
+| Źródło | Status | Elementy | Czas |
+|---|---|---|---|
+{% for r in results %}
+| {{ r.name }} | {{ ("✅" ~ (" ⚠️ " ~ cell(r.error) if r.error else "")) if r.ok else "❌ " ~ cell(r.error) }} | {{ r.count }} | {{ "%.1f" | format(r.seconds) }} s |
+{% endfor %}

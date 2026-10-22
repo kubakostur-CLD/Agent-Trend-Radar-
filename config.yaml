@@ -1,0 +1,76 @@
+# Konfiguracja Trend Radar. Sekrety trzymaj w .env, nie tutaj.
+
+general:
+  timezone: Europe/Warsaw
+  report_hour: 8                 # guard dla harmonogramu w GitHub Actions
+  user_agent: "TrendRadar/0.1 (+https://github.com/kubakostur-CLD/agent-trend-radar-; contact: {contact})"
+  reports_dir: reports
+  db_path: data/trends.sqlite
+  cache_dir: .cache
+  cache_ttl_minutes: 30          # cache HTTP na dysku (przy ponownych uruchomieniach)
+  http_timeout: 20
+
+report:
+  top_n: 10
+  section_n: 7                   # pozycji w sekcjach Polska / Świat
+  emerging_n: 5
+  links_per_topic: 4
+
+filters:
+  # Tematy zawierające te słowa są pomijane (bez wielkości liter i polskich znaków)
+  exclude_keywords: []
+  # Tematy zawierające te słowa dostają ⭐ i premię w scoringu
+  track_keywords: []
+
+scoring:
+  weights:
+    platforms: 0.35
+    engagement: 0.30
+    velocity: 0.20
+    freshness: 0.15
+  track_bonus: 0.10
+  cluster_threshold: 0.5         # 0..1, im wyżej, tym ostrożniejsze łączenie
+  emerging_min_velocity: 0.7
+
+sources:
+  wikipedia:
+    enabled: true
+    top_n: 40
+    projects:
+      - {project: pl.wikipedia, region: PL, lang: pl}
+      - {project: en.wikipedia, region: GLOBAL, lang: en}
+    # Strony techniczne i stale popularne (regex, dopasowanie do tytułu artykułu)
+    exclude_patterns:
+      - "^(Special|Specjalna|Wikipedia|Plik|File|Portal|Pomoc|Help|Kategoria|Category|Szablon|Template|Talk|Dyskusja)(:|_)"
+      - "^(Main_Page|Strona_główna|-)$"
+      - "^(Deaths_in_|Zmarli_w_)"
+      - "^(XXX|xHamster|Pornhub|XVideos|Cleopatra)"
+
+  hackernews:
+    enabled: true
+    top_n: 30
+
+  google_trends:
+    enabled: true
+    geos:
+      - {geo: PL, region: PL, lang: pl}
+      - {geo: US, region: GLOBAL, lang: en}
+
+  rss:
+    enabled: true
+    feeds:
+      - name: Google News PL
+        url: "https://news.google.com/rss?hl=pl&gl=PL&ceid=PL:pl"
+        region: PL
+        lang: pl
+        google_news: true
+      - name: Google News US
+        url: "https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en"
+        region: GLOBAL
+        lang: en
+        google_news: true
+      # Własne feedy dodajesz tak samo:
+      # - name: Mój portal
+      #   url: "https://example.com/rss.xml"
+      #   region: PL
+      #   lang: pl
